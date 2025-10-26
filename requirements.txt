@@ -1,0 +1,20 @@
+# Core Agent & LLM Integration
+smolagents
+ollama  # interface for local models (requires Ollama app installed)
+
+# Data handling
+pandas
+#sqlite3-binary  # optional; Python 3 already includes sqlite3
+numpy
+
+# Visualization & UI
+matplotlib
+Pillow
+streamlit
+plotly
+
+# Image/plot display integration
+requests
+
+# Optional utilities
+python-dotenv
