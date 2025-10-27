@@ -33,3 +33,9 @@ protobuf~=3.19.0
 mysql-connector-python
 pymysql
 chromadb
+
+plotly 
+pillow 
+opencv-python
+
+octorest
