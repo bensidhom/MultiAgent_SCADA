@@ -1,35 +1,25 @@
-# Core Agent & LLM Integration
 smolagents
-
-ollama  # interface for local models (requires Ollama app installed)
-
-# Data handling
+ollama 
 pandas
-#sqlite3-binary  # optional; Python 3 already includes sqlite3
 numpy
-
-# Visualization & UI
 matplotlib
 Pillow
 streamlit
 plotly
 sqlglot
-# Image/plot display integration
 requests
-
-# Optional utilities
-python-dotenv
-
-smolagents[litellm]
-
+#python-dotenv
+#smolagents[litellm]
 sqlalchemy
-
 langchain
-python-dotenv==1.0.0
-streamlit==1.22.0
-tiktoken==0.4.0
-faiss-cpu==1.7.4
-protobuf~=3.19.0
+langchain_community
+#python-dotenv==1.0.0
+#streamlit==1.22.0
+#tiktoken==0.4.0
+#faiss-cpu==1.7.4
+#protobuf~=3.19.0
 mysql-connector-python
 pymysql
 chromadb
+torch
+octorest

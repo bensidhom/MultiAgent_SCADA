@@ -14,7 +14,7 @@ if "conversation" not in st.session_state:
 # Initialize model and agent
 # -------------------------------
 model = LiteLLMModel(
-    model_id="ollama_chat/deepseek-coder:6.7b",
+    model_id="ollama_chat/qwen3-coder:30b",
     api_base="http://127.0.0.1:11434",
     num_ctx=8192,
 )
@@ -26,7 +26,7 @@ agent = CodeAgent(
     tools=[],
     model=model,
     additional_authorized_imports=["numpy", "matplotlib", "matplotlib.pyplot"],
-    max_steps=3,
+    max_steps=1,
 
 )
 

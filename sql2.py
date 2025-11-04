@@ -14,7 +14,7 @@ from langchain_core.runnables.config import RunnableConfig
 # -------------------------------
 # Path to SQLite database
 # -------------------------------
-DB_PATH = r"C:\all\github_projects\MultiAgent_SCADA\output_data.db"
+DB_PATH = r".\output_data.db"
 
 if not os.path.isfile(DB_PATH):
     st.error(f"❌ Database file not found at: {DB_PATH}")
@@ -113,7 +113,7 @@ def sql_engine(query: str) -> str:
 # Initialize LLM and agent
 # -------------------------------
 model = LiteLLMModel(
-    model_id="ollama_chat/deepseek-coder-v2:16b",
+    model_id="ollama_chat/qwen3-coder:30b",
     api_base="http://127.0.0.1:11434",
     num_ctx=8192,
 )
@@ -121,7 +121,7 @@ model = LiteLLMModel(
 agent = CodeAgent(
     tools=[sql_engine],
     model=model,
-    max_steps=5,
+    max_steps=2,
     additional_authorized_imports=["pandas", "numpy"]
 )
 
