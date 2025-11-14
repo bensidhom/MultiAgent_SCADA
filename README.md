@@ -1,179 +1,199 @@
 # MultiAgent_SCADA
 
-# 3D Printer Real-Time Monitoring Dashboard  
-**Acoustic Emission (AE) • Computer Vision (CV) • Temperature • OctoPrint Control • AI Agents**
+A multi-agent SCADA system built with **Streamlit**, **Flask**, **Python**, and **OctoPrint**, integrating **Acoustic Emission (AE)** data, **computer vision**, **3D printer telemetry**, and **machine-learning inference** for real-time monitoring of additive manufacturing processes.
 
-![GitHub](https://img.shields.io/badge/license-MIT-blue.svg)  
-![Python](https://img.shields.io/badge/python-3.9%2B-blue)  
-![Streamlit](https://img.shields.io/badge/Streamlit-1.30%2B-orange)
-
----
-
-## Overview
-
-This repository implements a real-time monitoring and control system for FDM 3D printers using OctoPrint. It integrates Acoustic Emission (AE), Computer Vision (CV), temperature monitoring, and full OctoPrint control into a unified Streamlit dashboard. A multi-agent AI system powered by Qwen3-Coder-30B enables natural-language interaction for querying data, analyzing defects, and automating printer control.
-
-Repository URL: [https://github.com/bensidhom/MultiAgent_SCADA.git](https://github.com/bensidhom/MultiAgent_SCADA.git)
+This repository includes:
+- A real-time SCADA dashboard (`inference_deployement/app3.py`)
+- A Flask backend for printer control and inference APIs
+- Integration with **OctoPrint**, **SpotWave AE sensors (via Raspberry Pi)**, and **OpenCV**
+- ML pipeline for AE-based defect detection
+- Utilities for database logging, plotting, and AE/CV streaming
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
-├── models/
-│ ├── class_bi.h5
-│ └── yolov5/
-├── uploads/
+```
+MultiAgent_SCADA/
+│
+├── inference_deployement/
+│   ├── app3.py                # Main Streamlit SCADA dashboard
+│   ├── AEPlotter.py           # Real-time AE plots
+│   ├── CVPlotter.py           # Live CV plots + video frames
+│   ├── utils.py               # Shared helpers
+│   ├── session_config.json    # Stores IPs + printer/device configs
+│
+├── inference_server/
+│   ├── app.py                 # Flask backend (inference + printer control)
+│   ├── octorest_manager.py    # OctoPrint REST API control
+│   ├── ml_model.py            # Loads Keras AE model
+│   ├── ae_stream.py           # Live AE data processing
+│   ├── config.py              # Server settings
+│
+├── cv/
+│   ├── all_cv.py              # Camera streaming + CV inference
+│
+├── ae/
+│   ├── all_ae.py              # AE streaming from Raspberry Pi
+│
+├── printer/
+│   ├── printer_log_reader.py  # Printer logs (coords, temps, extrusion)
+│
 ├── database/
-├── data.db
-├── app.py
-├── db.py
-├── spotwave_ae.py
-├── transfer_pi.py
-├── server.crt / server.key
-├── session_config.json
-├── requirements.txt
+│   ├── db_manager.py          # SQL logging
+│   ├── schema.sql             # DB schema
+│
 └── README.md
-
-
-*(If there are any additional folders or files in the repo, adjust this section to match exactly.)*
+```
 
 ---
 
-## Features
+## 🚀 Features
 
-| Feature | Description |
-|---------|-------------|
-| AE Monitoring | 10 MHz sampling, feature extraction, Keras classification, auto-pause on 5 defects. |
-| CV Monitoring | YOLOv5 detection for extrusion defects; auto-pause on 3+ detections. |
-| Temperature Monitoring | Real-time nozzle/bed tracking with dynamic plots. |
-| 3D Path Visualization | Parses G-code, streams coordinates to Godot, shows trajectory with defect markers. |
-| OctoPrint Integration | Upload, start, pause, resume, cancel, set temps, adjust flow/feed. |
-| AI Multi-Agent System | Natural-language control using smolagents + Qwen3-Coder-30B. |
-| Database Logging | Stores AE waveforms, CV detections, temps, coordinates, timestamps, job IDs. |
+### **Streamlit SCADA Dashboard**
+- AE waveform & spectrogram  
+- Real-time camera feed  
+- Printer telemetry (extrusion, coordinates, temperature)  
+- AE-based defect detection (with model auto-pause)  
+- Full printer controls: Start / Pause / Resume / Cancel  
+- 1-second live refresh without rerendering everything  
+
+### **Flask Backend**
+REST API for:
+| Action | Route |
+|--------|-------|
+| Start print | `/start` |
+| Pause | `/pause` |
+| Cancel | `/cancel` |
+| Status | `/status` |
+| ML inference | `/infer` |
+| AE data streaming | `/ae` |
+
+### **AE System**
+- Streams from Raspberry Pi  
+- Saves each burst  
+- Classifies in real-time  
+- Sends decisions to dashboard  
+- Optional auto-stop  
+
+### **Computer Vision**
+- OpenCV camera capture  
+- Real-time CV plotting  
+- Inference-ready pipeline  
+
+### **OctoPrint**
+- OctoRest API integration  
+- Status / Temp / Job progress  
+- Full remote printer control  
 
 ---
 
-## Multi-Agent Architecture
+## 🛠️ Installation
 
-The system uses smolagents for code-executing agents:
-
-### Database Agent
-- SQL queries on `data.db`
-- Returns DataFrames, tables, and plots
-
-### Printing Agent
-- Full OctoPrint control through OctoRest
-
-### Master Agent
-- Routes user queries
-- Performs multi-step logic (e.g., detect → analyze → pause)
-
-All agents run on Qwen3-Coder-30B (via Ollama or LiteLLM).
-
----
-
-## Setup
-
-### 1. Clone
-
+### Clone the repository
 ```bash
 git clone https://github.com/bensidhom/MultiAgent_SCADA.git
 cd MultiAgent_SCADA
+```
 
-2. Create Environment
-
+### Create virtual environment
+```bash
 python -m venv myenv
-source myenv/bin/activate         # Linux/macOS
-myenv\Scripts\activate            # Windows
+myenv\Scripts\activate      # Windows
+source myenv/bin/activate   # macOS/Linux
+```
 
-
-3. Install Dependencies
-
+### Install dependencies
+```bash
 pip install -r requirements.txt
-(Optional):
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+```
 
-4. SSL Certificates (Optional)
+---
 
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout server.key -out server.crt
+## ▶️ Running the System
 
-Database Initialization
-python db.py
+### 1. Start the **Flask API server**
+```bash
+cd inference_server
+python app.py
+```
 
-Creates:
+### 2. Start the **Streamlit SCADA dashboard**
+```bash
+cd inference_deployement
+streamlit run app3.py
+```
 
-time_series
+### 3. (Optional) Start AE streaming
+```bash
+cd ae
+python all_ae.py
+```
 
-date_time
+### 4. (Optional) Start CV streaming
+```bash
+cd cv
+python all_cv.py
+```
 
-job_id
+---
 
-time
+## ⚙️ Configuration
 
-class
+Edit:
+```
+inference_deployement/session_config.json
+```
 
-probability
+Example:
+```json
+{
+  "ip": "192.168.1.25",
+  "octoprint_url": "http://192.168.1.25:5000",
+  "octoprint_api_key": "YOUR_API_KEY"
+}
+```
 
-amplitude
+Used by:
+- Streamlit dashboard  
+- AE streamer  
+- CV streamer  
+- Flask API  
 
-duration
+---
 
-energy
+## 🗄️ Database Logging
 
-rms
+Run:
+```bash
+sqlite3 scada.db < database/schema.sql
+```
 
-rise_time
+Automatically logs:
+- AE bursts  
+- CV detections  
+- Printer telemetry  
+- Inference results  
 
-counts
+---
 
-wave (JSON)
+## 📌 Status
 
-computer_vision
+Currently under active development:
+- Multi-agent orchestrator (LangGraph)  
+- Cloud logging  
+- Unified message bus  
+- Real-time 3D visualizations  
 
-date_time
+---
 
-job_id
+## 🤝 Contributing
 
-time
+Fork → Make changes → Pull request  
+Issues welcome.
 
-class
+---
 
-probability
+## 📜 License
+MIT License.
 
-image_path
-
-
-Raspberry Pi (AE Acquisition)
-1. Transfer Files
-
-python transfer_pi.py --pi-ip <PI_IP> --username pi --password 1234
-
-2. Install Dependencies
-ssh pi@<PI_IP>
-pip install numpy
-3. Configure AE Parameters
-SAMPLING_RATE = 10_000_000
-THRESHOLD = 0.1
-DURATION_US = 1000
-
-streamlit run app.py
-
-
-First-Time Setup (UI)
-
-Enter OctoPrint IP
-
-Ensure Pi is streaming AE
-
-Ensure Qwen3-Coder-30B is running in Ollama
-
-Click Start Monitoring Systems
-
-Natural Language Examples
-
-“Show AE defects from the last job.”
-
-“Pause printing if CV finds 3 defects.”
-
-“Start printing bracket.gcode at 215°C.”
