@@ -1,0 +1,14 @@
+2025-11-14 11:58:59,333 [ERROR] Error retrieving job status: HTTPConnectionPool(host='150.250.211.169', port=80): Max retries exceeded with url: /api/job (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000028CBA769F10>, 'Connection to 150.250.211.169 timed out. (connect timeout=5)'))
+2025-11-14 11:59:04,345 [ERROR] Error getting temperature: HTTPConnectionPool(host='150.250.211.169', port=80): Max retries exceeded with url: /api/printer (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000028CBA795B50>, 'Connection to 150.250.211.169 timed out. (connect timeout=5)'))
+2025-11-14 11:59:25,380 [ERROR] OctoPrint connection failed: HTTPConnectionPool(host='150.250.211.169', port=80): Max retries exceeded with url: /api/version (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000028CBA796A10>, 'Connection to 150.250.211.169 timed out. (connect timeout=None)'))
+2025-11-14 11:59:28,680 [WARNING] From C:\Users\DEHub\anaconda3\envs\myenv\Lib\site-packages\keras\src\backend\common\global_state.py:82: The name tf.reset_default_graph is deprecated. Please use tf.compat.v1.reset_default_graph instead.
+
+2025-11-14 12:01:43,588 [WARNING] From C:\Users\DEHub\anaconda3\envs\myenv\Lib\site-packages\keras\src\backend\common\global_state.py:82: The name tf.reset_default_graph is deprecated. Please use tf.compat.v1.reset_default_graph instead.
+
+2025-11-14 12:01:49,224 [INFO] AE model loaded successfully
+2025-11-14 12:01:49,227 [ERROR] YOLOv5 repo not found at: C:\SCADA\models\yolov5
+2025-11-14 12:01:49,233 [INFO] AE monitoring started
+2025-11-14 12:01:49,235 [INFO] CV monitoring started
+2025-11-14 12:01:49,237 [INFO] Temperature monitoring started
+2025-11-14 12:01:49,278 [INFO] Connected (version 2.0, client OpenSSH_9.2p1)
+2025-11-14 12:01:49,587 [INFO] Authentication (password) successful!
