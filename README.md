@@ -65,7 +65,10 @@ streamlit run app.py
 2. **Session Configuration**:
 - Load or save printer IP (default: "150.250.211.169").
 - Set job name, timestamp, and folder for organizing data.
+![alt text](<Screenshot 2025-11-13 120945.png>)
+control ​
 
+Sends commands to OctoPrint via REST API. Handles start, pause, resume, cancel, and temperature/flow adjustments. Polls printer status and temperature every few seconds.
 3. **Real-Time Monitoring**:
 - The app initializes a `RealTimeDataManager` for in-memory storage of AE waveforms, classifications, CV detections, temperatures, and printer coordinates.
 - An `AEMonitor` class loads the Keras model, processes AE data, classifies waveforms (e.g., "defect" if probability > 0.5), and detects defects.
@@ -75,13 +78,19 @@ streamlit run app.py
   - 3D printer path with defect points (red markers).
   - Temperature trends (bed and tool).
   - CV images with detections.
+![alt text](<Screenshot 2025-11-13 121108.png>)
+Ai​
 
+ Runs two models: Keras classifier on AE features to detect print defects, and YOLOv5 on webcam images to spot visual flaws like stringing or under-extrusion.
 4. **Database Interactions**:
 - Data is inserted into `data.db` via `DatabaseManager`.
   - `computer_vision` table: Stores CV results (job_id, class, probability, image_path).
   - `time_series` table: Stores AE results (job_id, class, probability, waveform as JSON, features like amplitude, duration).
 - Query the database using natural language via the AI agents in the UI.
+![alt text](<Screenshot 2025-11-13 121158.png>)
+Manages real-time data:​
 
+ SSH streams AE and G-code, HTTP grabs webcam frames, in-memory buffers hold recent data, and SQLite logs all events
 5. **AI Agents Interface**:
 - In the Streamlit UI, enter queries like:
   - "Show failed prints last week" (queries database).
@@ -89,11 +98,17 @@ streamlit run app.py
   - "Check the last print’s temperature. If above 220°C, pause the printer." (combines query and control).
 - The master agent routes to `database_agent` (SQL queries) or `printing_agent` (OctoPrint commands).
 - Displays results as DataFrames, images, waveforms, or status messages.
+![alt text](<Screenshot 2025-11-13 121242.png>)
+Agents​
 
+ LLM-powered agents (master, database, printing) interpret natural language, query SQLite logs, and control the printer based on sensor data and rules.
 6. **Printer Control**:
 - Use the UI or agents for commands: list files, start/pause/resume/cancel prints, set temps, adjust flow/feed.
 - Get real-time status and temperatures.
+![alt text](<Screenshot 2025-11-13 121447.png>)
+GODOT​
 
+ Receives live X/Y/Z coordinates via TCP (127.0.0.2:50003) and renders the 3D print path with defect markers in real time.
 ### File Explanations
 - **db.py**: Creates the SQLite database (`data.db`) with two tables:
 - `computer_vision`: Stores CV data (date_time, job_id, time, class, probability, image_path).
@@ -123,6 +138,7 @@ streamlit run app.py
 - Visualizations: Real-time plots for AE, temps, 3D paths.
 - AI Agents: Uses SmolAgents for database querying (SQL via LangChain) and printer control (OctoPrint API).
 - UI for natural language inputs, displaying results, schemas, and samples.
+![alt text](image.png)
 
 ## Contributing
 - Fork the repo and submit pull requests.
