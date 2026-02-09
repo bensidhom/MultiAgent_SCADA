@@ -105,6 +105,8 @@ Manages real-time data:​
 Agents​
 
  LLM-powered agents (master, database, printing) interpret natural language, query SQLite logs, and control the printer based on sensor data and rules.
+ <img width="1020" height="562" alt="image" src="https://github.com/user-attachments/assets/b5041408-6a33-469a-81b1-e46e152a4901" />
+
 6. **Printer Control**:
 - Use the UI or agents for commands: list files, start/pause/resume/cancel prints, set temps, adjust flow/feed.
 - Get real-time status and temperatures.
@@ -118,6 +120,7 @@ GODOT​
 - `time_series`: Stores AE time-series data (date_time, job_id, time, class, probability, amplitude, duration, energy, rms, rise_time, counts, wave as JSON).
 - Inserts example data for verification.
 - Run this first to initialize the DB.
+<img width="876" height="691" alt="image" src="https://github.com/user-attachments/assets/0016ff69-207a-4456-b561-091af6318ea8" />
 
 - **spotwave_ae.py**: AE data collector script, designed to run on Raspberry Pi.
 - Uses the `waveline` library to connect to a SpotWave device via USB.
@@ -125,6 +128,7 @@ GODOT​
 - Merges AE and transient records into `HitRecord` dataclasses.
 - Outputs JSON-formatted records (including waveform as list) to stdout.
 - Handles errors and prints status messages to stderr.
+<img width="892" height="558" alt="image" src="https://github.com/user-attachments/assets/0e0796b6-a803-45aa-9243-38d1d8d5f659" />
 
 - **transfer_pi.py**: SSH file transfer script.
 - Transfers `spotwave_ae.py` from local machine to Raspberry Pi (IP: 150.250.210.249).
@@ -141,7 +145,7 @@ GODOT​
 - Visualizations: Real-time plots for AE, temps, 3D paths.
 - AI Agents: Uses SmolAgents for database querying (SQL via LangChain) and printer control (OctoPrint API).
 - UI for natural language inputs, displaying results, schemas, and samples.
-![alt text](image.png)
+
 
 ## Contributing
 - Fork the repo and submit pull requests.
