@@ -7,7 +7,7 @@ The pipeline includes:
 - AE data collection from a SpotWave device (running on Raspberry Pi).
 - File transfer to Raspberry Pi via SSH.
 - A Streamlit app that orchestrates real-time monitoring, data visualization, defect detection, and printer control using AI agents.
-
+<img width="700" height="817" alt="image" src="https://github.com/user-attachments/assets/fec1612f-85d1-4b35-9ec7-fb311b2749cc" />
 ## Features
 - **Acoustic Emission Monitoring**: Collects real-time AE waveforms from a SpotWave sensor, classifies them using a pre-trained Keras model, and detects defects based on thresholds.
 - **Computer Vision Integration**: Processes images (e.g., from a camera) for defect detection and stores results in the database.
@@ -18,6 +18,8 @@ The pipeline includes:
 - **Defect Detection and Response**: Automatically pauses printing on consecutive defects and visualizes defect points in 3D space.
 - **File Transfer**: SSH-based transfer of scripts (e.g., AE collector) to Raspberry Pi.
 - **Real-Time Streaming**: Manages in-memory data for AE, CV, temperatures, and printer coordinates with thread-safe access.
+<img width="1215" height="531" alt="image" src="https://github.com/user-attachments/assets/8bcc8962-0c78-466d-8d5a-8b981faa1cb5" />
+
 
 ## Requirements
 - **Hardware**:
@@ -26,6 +28,7 @@ The pipeline includes:
   - SpotWave device for AE sensing (connected via USB to Raspberry Pi).
   - 3D Printer with OctoPrint server.
   - Optional: Camera for CV monitoring.
+<img width="1066" height="550" alt="image" src="https://github.com/user-attachments/assets/91bd5fba-7455-40c4-9c16-5a001a1d0ad9" />
 
 - **Software**:
   - Python 3.12+.
